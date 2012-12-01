@@ -4,13 +4,14 @@ define(function(require) {
   var _ = require('underscore')
   require('bootstrap')
 
-  var Toolbar = function() {
+  var Toolbar = function(editor) {
     Eventable.call(this)
     $('.dropdown-toggle').dropdown()
     this.$listoflevels = $('#list-of-levels')
     this.$listoflevels.on('click a', _.bind(this.onLevelSelected,this))
     this.levels = null
     this.entities = null
+    this.editor = editor
     $.getJSON('/levels', _.bind(this.onLevelsReceived, this))
     $.getJSON('/entities', _.bind(this.onEntitiesReceived, this))
   }
