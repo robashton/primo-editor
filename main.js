@@ -24,6 +24,9 @@ define(function(require) {
       this.level = level
       this.engine.loadLevel(level)
       this.raise('level-changed', level)
+    },
+    setActiveTool: function(tool) {
+
     }
   }
   _.extend(Editor.prototype, Eventable.prototype)
