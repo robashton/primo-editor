@@ -3,6 +3,7 @@ define(function(require) {
   var Runner = require('../engine/core')
   var Toolbar = require('./toolbar')
   var Layers = require('./layers')
+  var Palette = require('./palette')
   
   var Editor = function(targetid) {
     Eventable.call(this)
@@ -11,6 +12,7 @@ define(function(require) {
     this.engine = new Runner(targetid)
     this.toolbar = new Toolbar(this)
     this.layers = new Layers(this)
+    this.palette = new Palette(this)
     this.toolbar.on('level-loaded', _.bind(this.onLevelLoaded, this))
     setInterval(_.bind(this.render, this), 500)
   }

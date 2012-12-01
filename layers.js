@@ -1,12 +1,16 @@
 define(function(require) {
   var $ = require('jquery')
   var _ = require('underscore')
+  var Eventable = require('eventable')
 
   var Layers = function(editor) {
+    Eventable.call(this)
     this.$layerselection = $('#layer-selection')
+    this.$selectedlayer = null
     this.editor = editor
     this.level = null
     this.editor.on('level-changed', _.bind(this.onLevelChanged, this))
+    this.$layerselection.on('click .layer', _.bind(this.onLayerSelected, this))
   }
   Layers.prototype = {
     onLevelChanged: function(level) {
@@ -15,19 +19,31 @@ define(function(require) {
         var layer = level.layers[i]
         layers.push(
           $('<li/>')
+            .addClass('layer')
+            .data('layer', layer)
             .append(
               $('<input type="checkbox" name="layervisible"/>')
                 .attr('checked', 'checked')
             )
             .append(
-              $('<input type="text" name="layername"/>')
-                .val(layer.name)
+              $('<span/>')
+                .text(layer.name)
             )
           )
       }
       this.$layerselection.html(layers)
+    },
+    onLayerSelected: function(e) {
+      var $layer = $(e.target)
+      var layerData = $layer.data('layer')
+      this.$layerselection.find('li').removeClass('selected')
+      this.selectedlayer = layerData
+      this.$selectedlayer = $layer
+      this.$selectedlayer.addClass('selected')
+      this.raise('layer-selected', layerData)
     }
   }
+  _.extend(Layers.prototype, Eventable.prototype)
 
   return Layers
 })
