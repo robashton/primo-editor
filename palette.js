@@ -5,14 +5,41 @@ define(function(require) {
   var TileTool = function(layer, tile) {
     this.layer = layer
     this.tile = tile
+    this.editor = null
+    this.onInputAction = _.bind(this.onInputAction, this)
   }
 
   TileTool.prototype = {
-    render: function(context, x, y) {
-
+    activate: function(editor) {
+      this.editor = editor
+      this.editor.input.cursor('none')
+      this.editor.input.on('action', this.onInputAction)
     },
-    apply: function(x, y) {
+    deactivate: function() {
+      this.editor.input.cursor('default')
+      this.editor.input.off('action', this.onInputAction)
+    },
+    onInputAction: function(ev) {
+      this.editor.executeAction(
+        new SetTileAction(ev.worldx, ev.worldy, this.layer, this.tile))
+    }
+  }
 
+  var SetTileAction = function(worldx, worldy, layer, tile) {
+    this.worldx = worldx
+    this.worldy = worldy
+    this.layer = layer
+    this.tile = tile
+    this.oldtile = null
+  }
+
+  SetTileAction.prototype = {
+    invoke: function() {
+      this.oldtile = this.layer.getTileAt(this.worldx, this.worldy)
+      this.layer.setTileAt(this.worldx, this.worldy, this.tile)
+    },
+    undo: function() {
+      this.layer.setTileAt(this.worldx, this.worldy, this.oldtile)
     }
   }
 
@@ -22,6 +49,7 @@ define(function(require) {
     this.$selection = $('#palette-selection')
     this.$selection.on('click div', _.bind(this.onItemSelected, this))
   }
+
   Palette.prototype = {
     onLayerSelected: function(layer) {
       var items = [] 

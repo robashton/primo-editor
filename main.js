@@ -4,6 +4,7 @@ define(function(require) {
   var Toolbar = require('./toolbar')
   var Layers = require('./layers')
   var Palette = require('./palette')
+  var Input = require('./input')
   
   var Editor = function(targetid) {
     Eventable.call(this)
@@ -13,7 +14,9 @@ define(function(require) {
     this.toolbar = new Toolbar(this)
     this.layers = new Layers(this)
     this.palette = new Palette(this)
+    this.input = new Input(targetid)
     this.toolbar.on('level-loaded', _.bind(this.onLevelLoaded, this))
+    this.activeTool = null
     setInterval(_.bind(this.render, this), 500)
   }
   Editor.prototype = {
@@ -26,7 +29,14 @@ define(function(require) {
       this.raise('level-changed', level)
     },
     setActiveTool: function(tool) {
-
+      if(this.activeTool)
+        this.activeTool.deactivate()
+      this.activeTool = tool
+      if(this.activeTool)
+        this.activeTool.activate(this)
+    },
+    executeAction: function(action) {
+      action.invoke()
     }
   }
   _.extend(Editor.prototype, Eventable.prototype)
