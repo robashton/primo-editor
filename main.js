@@ -37,6 +37,7 @@ define(function(require) {
     },
     executeAction: function(action) {
       action.invoke()
+      this.render()
     }
   }
   _.extend(Editor.prototype, Eventable.prototype)

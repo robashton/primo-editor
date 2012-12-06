@@ -8,6 +8,9 @@ define(function(require) {
     this.element = document.getElementById(elementid)
     this.hammer = new Hammer(this.element)
     this.hammer.ontap = _.bind(this.onTap, this)
+    this.hammer.ondragstart = _.bind(this.onDragStart, this)
+    this.hammer.ondrag = _.bind(this.onDrag, this)
+    this.hammer.ondragend = _.bind(this.onDragEnd, this)
     this.ev = {}
   }
 
@@ -24,6 +27,19 @@ define(function(require) {
       this.ev.worldx = ev.position[0].x - this.element.offsetLeft
       this.ev.worldy = ev.position[0].y - this.element.offsetTop
       this.raise('tap', this.ev)
+    },
+    onDragStart: function(ev) {
+      this.ev.worldx = ev.position.x
+      this.ev.worldy = ev.position.y
+      this.raise('dragstart', this.ev)
+    },
+    onDrag: function(ev) {
+      this.ev.worldx = ev.position.x
+      this.ev.worldy = ev.position.y
+      this.raise('drag', this.ev)
+    },
+    onDragEnd: function(ev) {
+      this.raise('dragend')
     }
   }
   _(Input.prototype).extend(Eventable.prototype)
