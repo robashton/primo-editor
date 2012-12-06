@@ -21,9 +21,9 @@ define(function(require) {
       // Also the layer is currently being rendered
       // as 1 pixel = 1 unit, although this is not necessarily
       // the way it should be
-      this.ev.worldx = ev.position[0].x
-      this.ev.worldy = ev.position[0].y
-      this.raise('action', this.ev)
+      this.ev.worldx = ev.position[0].x - this.element.offsetLeft
+      this.ev.worldy = ev.position[0].y - this.element.offsetTop
+      this.raise('tap', this.ev)
     }
   }
   _(Input.prototype).extend(Eventable.prototype)

@@ -2,6 +2,8 @@ define(function(require) {
   var $ = require('jquery')
   var _ = require('underscore')
   var Eventable = require('eventable')
+  var LayerEditor = require('./layereditor')
+
 
   var Layers = function(editor) {
     Eventable.call(this)
@@ -17,10 +19,11 @@ define(function(require) {
       var layers = []
       for(var i = 0 ; i < level.layers.length; i++) {
         var layer = level.layers[i]
+        var layerEditor = new LayerEditor(layer, this.editor)
         layers.push(
           $('<li/>')
             .addClass('layer')
-            .data('layer', layer)
+            .data('layer', layerEditor)
             .append(
               $('<input type="checkbox" name="layervisible"/>')
                 .attr('checked', 'checked')

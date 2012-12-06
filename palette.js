@@ -6,20 +6,20 @@ define(function(require) {
     this.layer = layer
     this.tile = tile
     this.editor = null
-    this.onInputAction = _.bind(this.onInputAction, this)
+    this.onInputTap = _.bind(this.onInputTap, this)
   }
 
   TileTool.prototype = {
     activate: function(editor) {
       this.editor = editor
       this.editor.input.cursor('none')
-      this.editor.input.on('action', this.onInputAction)
+      this.editor.input.on('tap', this.onInputTap)
     },
     deactivate: function() {
       this.editor.input.cursor('default')
-      this.editor.input.off('action', this.onInputAction)
+      this.editor.input.off('tap', this.onInputTap)
     },
-    onInputAction: function(ev) {
+    onInputTap: function(ev) {
       this.editor.executeAction(
         new SetTileAction(ev.worldx, ev.worldy, this.layer, this.tile))
     }
@@ -51,19 +51,20 @@ define(function(require) {
   }
 
   Palette.prototype = {
-    onLayerSelected: function(layer) {
+    onLayerSelected: function(layerEditor) {
       var items = [] 
+      var layer = layerEditor.layer
       var tileset = layer.tileset
       var image = new Image()
       image.src = tileset.path
       image.onload = _.bind(function() {
         for(var i in tileset.tiles) {
-          var tile = tileset.tiles[i]
-          var delta = tileset.tilesize * tile  
+          var tileOffset = tileset.tiles[i]
+          var delta = tileset.tilesize * tileOffset  
           var sx = delta % image.width
           var sy = parseInt(delta / image.width, 10) * tileset.tilesize
 
-          var tool = new TileTool(layer, tile)
+          var tool = new TileTool(layerEditor, tileOffset)
 
           items.push( 
             $('<div/>')
