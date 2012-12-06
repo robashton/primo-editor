@@ -8,7 +8,9 @@ define(function(require) {
     Eventable.call(this)
     $('.dropdown-toggle').dropdown()
     this.$listoflevels = $('#list-of-levels')
-    this.$listoflevels.on('click a', _.bind(this.onLevelSelected,this))
+    this.$listoflevels.on('click a.level', _.bind(this.onLevelSelected,this))
+    this.$listoflevels.on('click #btn-save-level', _.bind(this.onLevelSave, this))
+    this.$listoflevels.on('click #btn-create-level', _.bind(this.onLevelCreate, this))
     this.levels = null
     this.entities = null
     this.editor = editor
@@ -36,6 +38,7 @@ define(function(require) {
           $('<li/>').html(
             $('<a/>')
               .attr('href', '#')
+              .addClass('level')
               .text(level.name)
               .data('level', level)
           )
@@ -48,6 +51,12 @@ define(function(require) {
       require([level.link], function(level) {
         self.raise('level-loaded', level)
       })
+    },
+    onLevelSave: function() {
+      this.editor.saveLevel()
+    },
+    onLevelCreate: function() {
+      // Show dialog asking for name and all that
     }
   }
   _.extend(Toolbar.prototype, Eventable.prototype)
