@@ -1,13 +1,14 @@
 define(function(require) {
-  var LayerEditor = function(layer, editor) {
+  var LayerEditor = function(level, layer, editor) {
+    this.level = level
     this.layer = layer
     this.editor = editor
   }
   LayerEditor.prototype = {
     indexForWorldCoords: function(x, y) {
-      var tilex = Math.floor(x / this.layer.tilesize)
-      var tiley = Math.floor(y / this.layer.tilesize)
-      var index = tilex + tiley * this.layer.width
+      var tilex = Math.floor(x / this.level.tilesize)
+      var tiley = Math.floor(y / this.level.tilesize)
+      var index = tilex + tiley * this.level.width
       return index
     },
     setTileAt: function(x, y, tile) {

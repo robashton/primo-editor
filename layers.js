@@ -19,7 +19,7 @@ define(function(require) {
       var layers = []
       for(var i = 0 ; i < level.layers.length; i++) {
         var layer = level.layers[i]
-        var layerEditor = new LayerEditor(layer, this.editor)
+        var layerEditor = new LayerEditor(level, layer, this.editor)
         layers.push(
           $('<li/>')
             .addClass('layer')
