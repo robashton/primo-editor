@@ -18,7 +18,8 @@ define(function(require) {
       var tileset = layer.tileset
       var image = new Image()
 
-      items.push(this.createItem(new SelectTool(), '/media/selecttool.png'))
+      var $selectTool = this.createItem(new SelectTool(), '/media/selecttool.png')
+      items.push($selectTool)
 
       image.src = tileset.path
       image.onload = _.bind(function() {
@@ -38,6 +39,7 @@ define(function(require) {
         }
         this.$selection.html(items)
       }, this)
+      this.select($selectTool)
     },
     createItem: function(tool, image) {
      return $('<div/>')
@@ -48,12 +50,15 @@ define(function(require) {
           })
           .data('tool', tool)
     },
-    onItemSelected: function(e) {
-      var $item = $(e.target)
+    select: function($item) {
       this.$selection.find('div').removeClass('selected')
       $item.addClass('selected')
       var tool = $item.data('tool')
       this.editor.setActiveTool(tool)
+    },
+    onItemSelected: function(e) {
+      var $item = $(e.target)
+      this.select($item)
     }
   }
 

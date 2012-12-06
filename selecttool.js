@@ -1,12 +1,15 @@
 define(function(require) {
 
-  var SelectTool = function(camera) {
-    this.camera = camera
+  var SelectTool = function() {
+    this.onInputTap = _.bind(this.onInputTap, this)
+    this.onDragStart = _.bind(this.onDragStart, this)
+    this.onDrag = _.bind(this.onDrag, this)
   }
 
   SelectTool.prototype = {
     activate: function(editor) {
       this.editor = editor
+      this.camera = this.editor.engine.camera
       this.editor.input.cursor('pointer')
       this.editor.input.on('tap', this.onInputTap)
       this.editor.input.on('dragstart', this.onDragStart)
@@ -22,10 +25,12 @@ define(function(require) {
       // TODO: Select
     },
     onDragStart: function(ev) {
-      // Drag the camera
+      this.camera.move(-ev.distancex, -ev.distancey)
+      this.editor.render()
     },
     onDrag: function(ev) {
-      // Drag the camera
+      this.camera.move(-ev.distancex, -ev.distancey)
+      this.editor.render()
     }
   }
   return SelectTool

@@ -14,7 +14,7 @@ define(function(require) {
     this.toolbar = new Toolbar(this)
     this.layers = new Layers(this)
     this.palette = new Palette(this)
-    this.input = new Input(targetid)
+    this.input = new Input(targetid, this.engine.camera)
     this.toolbar.on('level-loaded', _.bind(this.onLevelLoaded, this))
     this.activeTool = null
     setInterval(_.bind(this.render, this), 500)
