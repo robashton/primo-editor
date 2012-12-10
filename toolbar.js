@@ -2,6 +2,8 @@ define(function(require) {
   var $ = require('jquery')
   var Eventable = require('eventable')
   var _ = require('underscore')
+  var LevelEditor = require('./leveleditor')
+
   require('bootstrap')
 
   var Toolbar = function(editor) {
@@ -47,13 +49,13 @@ define(function(require) {
     },
     onLevelSelected: function(e) {
       var level = $(e.target).data('level')
-      var self = this
-      require([level.link], function(level) {
-        self.raise('level-loaded', level)
-      })
+      var editor = new LevelEditor(level.link)
+      editor.on('ready', function() {
+        this.raise('level-loaded', editor)
+      }, this)
     },
     onLevelSave: function() {
-      this.editor.saveLevel()
+      // this.editor.saveLevel()
     },
     onLevelCreate: function() {
       // Show dialog asking for name and all that
