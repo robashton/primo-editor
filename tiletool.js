@@ -25,19 +25,20 @@ define(function(require) {
     },
     onInputTap: function(ev) {
       this.editor.executeAction(
-        new SetTileAction(ev.worldx, ev.worldy, this.layer, this.tile))
+        new SetTileAction(this.editor, ev.worldx, ev.worldy, this.layer, this.tile))
     },
     onDragStart: function(ev) {
       this.editor.executeAction(
-        new SetTileAction(ev.worldx, ev.worldy, this.layer, this.tile))
+        new SetTileAction(this.editor, ev.worldx, ev.worldy, this.layer, this.tile))
     },
     onDrag: function(ev) {
       this.editor.executeAction(
-        new SetTileAction(ev.worldx, ev.worldy, this.layer, this.tile))
+        new SetTileAction(this.editor, ev.worldx, ev.worldy, this.layer, this.tile))
     }
   }
 
-  var SetTileAction = function(worldx, worldy, layer, tile) {
+  var SetTileAction = function(editor, worldx, worldy, layer, tile) {
+    this.editor = editor
     this.worldx = worldx
     this.worldy = worldy
     this.layer = layer
@@ -47,11 +48,11 @@ define(function(require) {
 
   SetTileAction.prototype = {
     invoke: function() {
-      this.oldtile = this.layer.getTileAt(this.worldx, this.worldy)
-      this.layer.setTileAt(this.worldx, this.worldy, this.tile)
+      this.oldtile = this.editor.getTileAt(this.layer, this.worldx, this.worldy)
+      this.editor.setTileAt(this.layer, this.worldx, this.worldy, this.tile)
     },
     undo: function() {
-      this.layer.setTileAt(this.worldx, this.worldy, this.oldtile)
+      this.editor.setTileAt(this.layer, this.worldx, this.worldy, this.oldtile)
     }
   }
 

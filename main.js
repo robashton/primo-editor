@@ -5,17 +5,19 @@ define(function(require) {
   var Layers = require('./layers')
   var Palette = require('./palette')
   var Input = require('./input')
+  var LevelEditor = require('./leveleditor')
   
   var Editor = function(targetid) {
     Eventable.call(this)
     this.targetid = targetid
-    this.level = null
+    // Think I'll merge this object and that
+    this.levelEditor = null
     this.engine = new Runner(targetid)
     this.toolbar = new Toolbar(this)
     this.layers = new Layers(this)
     this.palette = new Palette(this)
     this.input = new Input(targetid, this.engine.camera)
-    this.toolbar.on('level-loaded', _.bind(this.onLevelLoaded, this))
+    this.toolbar.on('level-selected', _.bind(this.onLevelSelected, this))
     this.activeTool = null
     setInterval(_.bind(this.render, this), 500)
   }
@@ -23,10 +25,12 @@ define(function(require) {
     render: function() {
       this.engine.render()
     },
-    onLevelLoaded: function(level) {
-      this.level = level
-      this.engine.loadLevel(level)
-      this.raise('level-changed', level)
+    onLevelSelected: function(path) {
+      this.levelEditor = new LevelEditor(path)
+      this.levelEditor.on('loaded', this.onLevelLoaded, this)
+    },
+    onLevelLoaded: function() {
+      this.engine.setLevel(this.levelEditor.level)
     },
     setActiveTool: function(tool) {
       if(this.activeTool)
@@ -38,6 +42,12 @@ define(function(require) {
     executeAction: function(action) {
       action.invoke()
       this.render()
+    },
+    getTileAt: function(layer, x, y) {
+      return this.levelEditor.getTileAt(layer, x, y)
+    },
+    setTileAt: function(layer, x, y, tile) {
+      this.levelEditor.setTileAt(layer, x, y, tile)
     }
   }
   _.extend(Editor.prototype, Eventable.prototype)

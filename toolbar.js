@@ -49,11 +49,9 @@ define(function(require) {
     },
     onLevelSelected: function(e) {
       var level = $(e.target).data('level')
-      var editor = new LevelEditor(level.link)
-      editor.on('ready', function() {
-        this.raise('level-loaded', editor)
-      }, this)
+      this.raise('level-selected', level.link)
     },
+
     onLevelSave: function() {
       // this.editor.saveLevel()
     },
