@@ -9,10 +9,12 @@ define(function(require) {
   var Toolbar = function(editor) {
     Eventable.call(this)
     $('.dropdown-toggle').dropdown()
+    this.$newleveldialog = $('#new-level-dialog')
     this.$listoflevels = $('#list-of-levels')
     this.$listoflevels.on('click', 'a.level', _.bind(this.onLevelSelected,this))
     this.$listoflevels.on('click', '#btn-save-level', _.bind(this.onLevelSave, this))
     this.$listoflevels.on('click', '#btn-create-level', _.bind(this.onLevelCreate, this))
+    this.$newleveldialog.on('click', '.save', _.bind(this.onLevelCreateConfirmation, this))
     this.levels = null
     this.entities = null
     this.editor = editor
@@ -56,7 +58,28 @@ define(function(require) {
       this.editor.save()
     },
     onLevelCreate: function() {
-      // Show dialog asking for name and all that
+      $('#new-level-dialog').modal()
+    },
+    onLevelCreateConfirmation: function() {
+      var data = {
+        width: this.$newleveldialog.find("[name=width]").val(),
+        height: this.$newleveldialog.find("[name=height]").val(),
+        name: this.$newleveldialog.find("[name=name]").val(),
+        tilesize: this.$newleveldialog.find("[name=tilesize]").val(),
+      }
+      $.ajax({
+          url: "/game/levels/" + data.name + '.json',
+          type: "PUT",
+          contentType: "application/json",
+          data: JSON.stringify({
+            entityTypes: {},
+            entities: [],
+            layers: [],
+            width: data.width,
+            height: data.height,
+            tilesize: data.tilesize
+        })
+      })
     }
   }
   _.extend(Toolbar.prototype, Eventable.prototype)

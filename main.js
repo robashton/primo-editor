@@ -10,7 +10,6 @@ define(function(require) {
   var Editor = function(targetid) {
     Eventable.call(this)
     this.targetid = targetid
-    // Think I'll merge this object and that
     this.levelEditor = null
     this.engine = new Runner(targetid)
     this.toolbar = new Toolbar(this)
@@ -19,6 +18,7 @@ define(function(require) {
     this.input = new Input(targetid, this.engine.camera)
     this.toolbar.on('level-selected', _.bind(this.onLevelSelected, this))
     this.activeTool = null
+    this.$leveltitle = $('.level-title')
     setInterval(_.bind(this.render, this), 500)
   }
   Editor.prototype = {
@@ -31,6 +31,7 @@ define(function(require) {
     },
     onLevelLoaded: function() {
       this.engine.setLevel(this.levelEditor.level)
+      this.$leveltitle.text(this.levelEditor.path)
       this.raise('level-changed', this.levelEditor)
     },
     setActiveTool: function(tool) {
