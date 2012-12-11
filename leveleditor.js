@@ -47,6 +47,51 @@ define(function(require) {
       var names = raw.substr(beginNames + 1, endNames-beginNames-1)
                      .split(',')
       return names
+    },
+    save: function() {
+      var sb = []
+      var paths = []
+      var names = []
+      for(var k in this.requires) {
+        paths.push("'" + this.requires[k] + "'")
+        names.push(k)
+      }
+
+      sb.push('define([')
+      sb.push(paths.join(',\n'))
+      sb.push('], function(')
+      sb.push(names.join(',\n'))
+      sb.push('){')
+
+      // So much for code as data
+      sb.push("var level = {")
+       
+      sb.push("width: " + this.level.width + ',')
+      sb.push("height: " + this.level.height + ',')
+      sb.push("tilesize: " + this.level.tilesize + ",")
+      sb.push("layers: [")
+
+      for(var i = 0 ; i < this.level.layers.length; i++) {
+        var layer = this.level.layers[i]
+        sb.push("{")
+        sb.push("name: " + layer.name + ",")
+        sb.push("tileset: " + typeof layer.tileset + ",")
+        sb.push("data: " + JSON.stringify(layer.data))
+        sb.push("}")
+        sb.push(",")
+      }
+
+      sb.push("],")
+
+      // Entities
+
+
+      sb.push("}")
+      sb.push('return level')
+      sb.push('})')
+
+      var rawdata = sb.join('\n')
+      console.log(rawdata)
     }
   }
   _.extend(LevelEditor.prototype, Eventable.prototype)
