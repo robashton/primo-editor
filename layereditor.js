@@ -1,23 +1,20 @@
 define(function(require) {
-  var LayerEditor = function(level, layer, editor) {
+  var LayerEditor = function(level, index) {
     this.level = level
-    this.layer = layer
-    this.editor = editor
+    this.index = index
   }
   LayerEditor.prototype = {
-    indexForWorldCoords: function(x, y) {
-      var tilex = Math.floor(x / this.level.tilesize)
-      var tiley = Math.floor(y / this.level.tilesize)
-      var index = tilex + tiley * this.level.width
-      return index
+    name: function() {
+      return this.level.data.layers[this.index].name
+    },
+    tileset: function() {
+      return this.level.level.layers[this.index].tileset
     },
     setTileAt: function(x, y, tile) {
-      var index = this.indexForWorldCoords(x, y)
-      this.layer.data[index] = tile
+      this.level.setTileAt(this.index, x, y, tile)
     },
     getTileAt: function(x, y, tile) {
-      var index = this.indexForWorldCoords(x, y)
-      return this.layer.data[index] 
+      return this.level.getTileAt(this.index, x, y, tile)
     }
   }
   return LayerEditor

@@ -3,10 +3,12 @@ define(function(require) {
   var $ = require('jquery')
   var _ = require('underscore')
   var LevelLoader = require('../engine/levelloader')
+  var LayerEditor = require('./layereditor')
 
   var LevelEditor = function(path) {
     Eventable.call(this)
     this.path = path
+    this.layers = []
     this.level = null
     this.data = null
     this.requires = {}
@@ -15,7 +17,7 @@ define(function(require) {
 
   LevelEditor.prototype = {
     loadData: function() {
-      $.get(this.path + '.json', _.bind(this.onRawFileReceived, this))
+      $.get(this.path, _.bind(this.onRawFileReceived, this))
       var loader = new LevelLoader(this.path)
       loader.on('finished', this.onLevelReceived, this)
     },
@@ -31,8 +33,15 @@ define(function(require) {
       // Serialize teh fucker
     },
     tryFinished: function() {
-      if(this.level && this.data)
+      if(this.level && this.data) {
+        this.createEditors()
         this.raise('loaded')
+      }
+    },
+    createEditors: function() {
+      for(var i = 0 ; i < this.data.layers.length; i++) {
+        this.layers[i] = new LayerEditor(this, i)
+      }
     },
     indexForWorldCoords: function(x, y) {
       var tilex = Math.floor(x / this.data.tilesize)
@@ -42,12 +51,12 @@ define(function(require) {
     },
     setTileAt: function(layer, x, y, tile) {
       var index = this.indexForWorldCoords(x, y)
-      this.data[layer].data[index] = tile
-      this.level[layer].data[index] = tile
+      this.data.layers[layer].data[index] = tile
+      this.level.layers[layer].data[index] = tile
     },
     getTileAt: function(layer, x, y, tile) {
       var index = this.indexForWorldCoords(x, y)
-      return this.data[layer].data[index] 
+      return this.data.layers[layer].data[index] 
     }
   }
   _.extend(LevelEditor.prototype, Eventable.prototype)

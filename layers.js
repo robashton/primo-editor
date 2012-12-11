@@ -14,23 +14,23 @@ define(function(require) {
     this.editor.on('level-changed', _.bind(this.onLevelChanged, this))
     this.$layerselection.on('click .layer', _.bind(this.onLayerSelected, this))
   }
+
   Layers.prototype = {
     onLevelChanged: function(level) {
       var layers = []
       for(var i = 0 ; i < level.layers.length; i++) {
         var layer = level.layers[i]
-        var layerEditor = new LayerEditor(level, layer, this.editor)
         layers.push(
           $('<li/>')
             .addClass('layer')
-            .data('layer', layerEditor)
+            .data('layer', layer)
             .append(
               $('<input type="checkbox" name="layervisible"/>')
                 .attr('checked', 'checked')
             )
             .append(
               $('<span/>')
-                .text(layer.name)
+              .text(layer.name())
             )
           )
       }

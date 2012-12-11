@@ -12,10 +12,9 @@ define(function(require) {
   }
 
   Palette.prototype = {
-    onLayerSelected: function(layerEditor) {
+    onLayerSelected: function(layer) {
       var items = [] 
-      var layer = layerEditor.layer
-      var tileset = layer.tileset
+      var tileset = layer.tileset()
       var image = new Image()
 
       var $selectTool = this.createItem(new SelectTool(), '/media/selecttool.png')
@@ -29,8 +28,8 @@ define(function(require) {
           var sx = delta % image.width
           var sy = parseInt(delta / image.width, 10) * tileset.tilesize
 
-          var tool = new TileTool(layerEditor, tileOffset)
-          var $item = this.createItem(tool, layer.tileset.path)
+          var tool = new TileTool(layer, tileOffset)
+          var $item = this.createItem(tool, layer.tileset().path)
                           .css({ 'background-position': [
                              -sx, 'px ', -sy, 'px'
                        ].join('')})

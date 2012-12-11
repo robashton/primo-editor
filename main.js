@@ -31,6 +31,7 @@ define(function(require) {
     },
     onLevelLoaded: function() {
       this.engine.setLevel(this.levelEditor.level)
+      this.raise('level-changed', this.levelEditor)
     },
     setActiveTool: function(tool) {
       if(this.activeTool)
