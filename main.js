@@ -49,6 +49,9 @@ define(function(require) {
     },
     setTileAt: function(layer, x, y, tile) {
       this.levelEditor.setTileAt(layer, x, y, tile)
+    },
+    save: function()  {
+      this.levelEditor.save()
     }
   }
   _.extend(Editor.prototype, Eventable.prototype)

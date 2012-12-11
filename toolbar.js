@@ -10,9 +10,9 @@ define(function(require) {
     Eventable.call(this)
     $('.dropdown-toggle').dropdown()
     this.$listoflevels = $('#list-of-levels')
-    this.$listoflevels.on('click a.level', _.bind(this.onLevelSelected,this))
-    this.$listoflevels.on('click #btn-save-level', _.bind(this.onLevelSave, this))
-    this.$listoflevels.on('click #btn-create-level', _.bind(this.onLevelCreate, this))
+    this.$listoflevels.on('click', 'a.level', _.bind(this.onLevelSelected,this))
+    this.$listoflevels.on('click', '#btn-save-level', _.bind(this.onLevelSave, this))
+    this.$listoflevels.on('click', '#btn-create-level', _.bind(this.onLevelCreate, this))
     this.levels = null
     this.entities = null
     this.editor = editor
@@ -53,7 +53,7 @@ define(function(require) {
     },
 
     onLevelSave: function() {
-      // this.editor.saveLevel()
+      this.editor.save()
     },
     onLevelCreate: function() {
       // Show dialog asking for name and all that

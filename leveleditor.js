@@ -30,8 +30,12 @@ define(function(require) {
       this.tryFinished()
     },
     save: function() {
-      var data = JSON.stringify(this.data)
-      $.post(this.path, data)
+      $.ajax({
+        type: "PUT",
+        url: this.path,
+        data: JSON.stringify(this.data),
+        contentType: "application/json"
+      })
     },
     tryFinished: function() {
       if(this.level && this.data) {
