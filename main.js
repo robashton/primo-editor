@@ -45,6 +45,9 @@ define(function(require) {
       action.invoke()
       this.render()
     },
+    createLayer: function(name, tileset) {
+      this.levelEditor.createLayer(name, tileset)
+    },
     getTileAt: function(layer, x, y) {
       return this.levelEditor.getTileAt(layer, x, y)
     },

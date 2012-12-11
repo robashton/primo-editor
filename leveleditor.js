@@ -43,6 +43,19 @@ define(function(require) {
         this.raise('loaded')
       }
     },
+    createLayer: function(name, tileset) {
+      this.data.layers.push({
+        name: name,
+        tileset: tileset
+      })
+
+      // This needs to be loaded from the server
+      this.level.layers.push({
+        name: name,
+        tileset: tileset
+      })
+      // An event needs raising so the layers can be refreshed
+    },
     createEditors: function() {
       for(var i = 0 ; i < this.data.layers.length; i++) {
         this.layers[i] = new LayerEditor(this, i)

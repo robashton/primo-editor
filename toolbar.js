@@ -61,14 +61,17 @@ define(function(require) {
       $('#new-level-dialog').modal()
     },
     onLevelCreateConfirmation: function() {
+      var self = this
       var data = {
         width: this.$newleveldialog.find("[name=width]").val(),
         height: this.$newleveldialog.find("[name=height]").val(),
         name: this.$newleveldialog.find("[name=name]").val(),
         tilesize: this.$newleveldialog.find("[name=tilesize]").val(),
       }
+      var url = "/game/levels/" + data.name + '.json'
+
       $.ajax({
-          url: "/game/levels/" + data.name + '.json',
+          url: url,
           type: "PUT",
           contentType: "application/json",
           data: JSON.stringify({
@@ -78,7 +81,11 @@ define(function(require) {
             width: data.width,
             height: data.height,
             tilesize: data.tilesize
-        })
+        }),
+        success: function() {
+          self.$newleveldialog.modal('hide')
+          self.raise('level-selected', url)
+        }
       })
     }
   }

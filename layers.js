@@ -8,11 +8,15 @@ define(function(require) {
   var Layers = function(editor) {
     Eventable.call(this)
     this.$layerselection = $('#layer-selection')
+    this.$addlayer = $('#btn-add-layer')
+    this.$newlayerdialog = $('#new-layer-dialog')
+    this.$newlayerdialog.on('click', '.save', _.bind(this.onLayerCreated, this))
     this.$selectedlayer = null
     this.editor = editor
     this.level = null
     this.editor.on('level-changed', _.bind(this.onLevelChanged, this))
     this.$layerselection.on('click .layer', _.bind(this.onLayerSelected, this))
+    this.$addlayer.on('click', _.bind(this.onNewLayerClicked, this))
   }
 
   Layers.prototype = {
@@ -35,6 +39,15 @@ define(function(require) {
           )
       }
       this.$layerselection.html(layers)
+    },
+    onNewLayerClicked: function() {
+      this.$newlayerdialog.modal()
+    },
+    onLayerCreated: function() {
+      this.editor.createLayer(
+        this.$newlayerdialog.find('[name=name]').val(),
+        this.$newlayerdialog.find('[name=tileset]').val()
+      )
     },
     onLayerSelected: function(e) {
       var $layer = $(e.target)
