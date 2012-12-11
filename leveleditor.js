@@ -30,7 +30,8 @@ define(function(require) {
       this.tryFinished()
     },
     save: function() {
-      // Serialize teh fucker
+      var data = JSON.stringify(this.data)
+      $.post(this.path, data)
     },
     tryFinished: function() {
       if(this.level && this.data) {
