@@ -48,11 +48,12 @@ define(function(require) {
         name: name,
         tileset: tileset
       })
-
-      // This needs to be loaded from the server
-      this.level.layers.push({
-        name: name,
-        tileset: tileset
+      var self = this
+      require([tileset], function(data) {
+        self.level.layers.push({
+          name: name,
+          tileset: data
+        })
       })
       // An event needs raising so the layers can be refreshed
     },

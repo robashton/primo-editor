@@ -41,13 +41,31 @@ define(function(require) {
       this.$layerselection.html(layers)
     },
     onNewLayerClicked: function() {
+      this.updateTilesetList()
       this.$newlayerdialog.modal()
+    },
+    updateTilesetList: function() {
+      $.getJSON('/tilesets', _.bind(this.onTilesetsReceived, this))
+    },
+    onTilesetsReceived: function(data) {
+      var $select = this.$newlayerdialog.find('[name=tileset]')
+      var $tilesets = []
+      for(var i = 0 ; i < data.length; i++) {
+        var tileset = data[i]
+        $tilesets.push(
+          $('<option/>')
+            .attr('value', tileset.link)
+            .text(tileset.name)
+          )
+      }
+      $select.html($tilesets)
     },
     onLayerCreated: function() {
       this.editor.createLayer(
         this.$newlayerdialog.find('[name=name]').val(),
         this.$newlayerdialog.find('[name=tileset]').val()
       )
+      this.$newlayerdialog.modal('hide')
     },
     onLayerSelected: function(e) {
       var $layer = $(e.target)
