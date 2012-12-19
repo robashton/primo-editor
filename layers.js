@@ -10,7 +10,7 @@ define(function(require) {
     this.$layerselection = $('#layer-selection')
     this.$addlayer = $('#btn-add-layer')
     this.$newlayerdialog = $('#new-layer-dialog')
-    this.$newlayerdialog.on('click', '.save', _.bind(this.onLayerCreated, this))
+    this.$newlayerdialog.on('click', '.save', _.bind(this.onLayerCreateRequest, this))
     this.$selectedlayer = null
     this.editor = editor
     this.level = null
@@ -21,24 +21,31 @@ define(function(require) {
 
   Layers.prototype = {
     onLevelChanged: function(level) {
-      var layers = []
+      this.$layerselection.html('')
       for(var i = 0 ; i < level.layers.length; i++) {
         var layer = level.layers[i]
-        layers.push(
-          $('<li/>')
-            .addClass('layer')
-            .data('layer', layer)
-            .append(
-              $('<input type="checkbox" name="layervisible"/>')
-                .attr('checked', 'checked')
-            )
-            .append(
-              $('<span/>')
-              .text(layer.name())
-            )
-          )
+        this.addLayerUi(layer)
       }
-      this.$layerselection.html(layers)
+      this.level = level
+      this.level.on('layer-added', _.bind(this.onLayerAdded, this))
+    },
+    onLayerAdded: function(layer) {
+      this.addLayerUi(layer)
+    },
+    addLayerUi: function(layer) {
+      this.$layerselection.append(
+        $('<li/>')
+          .addClass('layer')
+          .data('layer', layer)
+          .append(
+            $('<input type="checkbox" name="layervisible"/>')
+              .attr('checked', 'checked')
+          )
+          .append(
+            $('<span/>')
+            .text(layer.name())
+          )
+        )
     },
     onNewLayerClicked: function() {
       this.updateTilesetList()
@@ -60,7 +67,7 @@ define(function(require) {
       }
       $select.html($tilesets)
     },
-    onLayerCreated: function() {
+    onLayerCreateRequest: function() {
       this.editor.createLayer(
         this.$newlayerdialog.find('[name=name]').val(),
         this.$newlayerdialog.find('[name=tileset]').val()
