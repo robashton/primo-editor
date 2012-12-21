@@ -5,7 +5,7 @@ define(function(require) {
   var Layers = require('./layers')
   var Palette = require('./palette')
   var Input = require('./input')
-  var LevelEditor = require('./leveleditor')
+  var Level = require('../engine/level')
   
   var Editor = function(targetid) {
     Eventable.call(this)
@@ -26,13 +26,13 @@ define(function(require) {
       this.engine.render()
     },
     onLevelSelected: function(path) {
-      this.levelEditor = new LevelEditor(path)
-      this.levelEditor.on('loaded', this.onLevelLoaded, this)
+      this.level = new Level(path)
+      this.level.on('loaded', this.onLevelLoaded, this)
     },
     onLevelLoaded: function() {
-      this.engine.setLevel(this.levelEditor.level)
-      this.$leveltitle.text(this.levelEditor.path)
-      this.raise('level-changed', this.levelEditor)
+      this.engine.setLevel(this.level)
+      this.$leveltitle.text(this.level.path)
+      this.raise('level-changed', this.level)
     },
     setActiveTool: function(tool) {
       if(this.activeTool)

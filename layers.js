@@ -2,8 +2,6 @@ define(function(require) {
   var $ = require('jquery')
   var _ = require('underscore')
   var Eventable = require('eventable')
-  var LayerEditor = require('./layereditor')
-
 
   var Layers = function(editor) {
     Eventable.call(this)
@@ -22,11 +20,12 @@ define(function(require) {
   Layers.prototype = {
     onLevelChanged: function(level) {
       this.$layerselection.html('')
-      for(var i = 0 ; i < level.layers.length; i++) {
-        var layer = level.layers[i]
-        this.addLayerUi(layer)
-      }
       this.level = level
+
+      var self = this
+      this.level.forEachLayer(function(layer) {
+        self.addLayerUi(layer)
+      })
       this.level.on('layer-added', _.bind(this.onLayerAdded, this))
     },
     onLayerAdded: function(layer) {
