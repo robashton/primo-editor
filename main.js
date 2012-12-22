@@ -46,7 +46,21 @@ define(function(require) {
       this.render()
     },
     createLayer: function(name, tileset) {
-      this.levelEditor.createLayer(name, tileset)
+      this.level.addLayer({
+        data: this.createDataForNewLayer(),
+        tileset: tileset,
+        name: name
+      })
+      this.raise('layer-added')
+    },
+    createDataForNewLayer: function() {
+      var data = []
+      for(var i =0 ; i < this.level.width(); i++) {
+        for(var j = 0; j < this.level.height() ; j++) {
+          data.push(null)
+        }
+      }
+      return data
     },
     getTileAt: function(layer, x, y) {
       return this.levelEditor.getTileAt(layer, x, y)
