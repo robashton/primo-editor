@@ -13,7 +13,8 @@ define(function(require) {
     this.editor = editor
     this.level = null
     this.editor.on('level-changed', _.bind(this.onLevelChanged, this))
-    this.$layerselection.on('click .layer', _.bind(this.onLayerSelected, this))
+    this.$layerselection.on('click', '.layer', _.bind(this.onLayerSelected, this))
+    this.$layerselection.on('click', '[type=checkbox]', _.bind(this.onLayerChecked, this))
     this.$addlayer.on('click', _.bind(this.onNewLayerClicked, this))
   }
 
@@ -81,6 +82,19 @@ define(function(require) {
       this.$selectedlayer = $layer
       this.$selectedlayer.addClass('selected')
       this.raise('layer-selected', layerData)
+    },
+    onLayerChecked: function(e) {
+      e.stopImmediatePropagation()
+      var $checkbox = $(e.target)
+        , $layer = $checkbox.parent('.layer')
+        , layer = $layer.data('layer')
+      
+      if($checkbox.attr('checked'))
+        layer.show()
+      else
+        layer.hide()
+
+
     }
   }
   _.extend(Layers.prototype, Eventable.prototype)
