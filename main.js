@@ -10,7 +10,7 @@ define(function(require) {
   var Editor = function(targetid) {
     Eventable.call(this)
     this.targetid = targetid
-    this.levelEditor = null
+    this.level = null
     this.engine = new Runner(targetid)
     this.toolbar = new Toolbar(this)
     this.layers = new Layers(this)
@@ -55,7 +55,12 @@ define(function(require) {
       this.levelEditor.setTileAt(layer, x, y, tile)
     },
     save: function()  {
-      this.levelEditor.save()
+      $.ajax({
+        type: "PUT",
+        url: this.level.path,
+        data: JSON.stringify(this.level.rawdata),
+        contentType: "application/json"
+      })
     }
   }
   _.extend(Editor.prototype, Eventable.prototype)
