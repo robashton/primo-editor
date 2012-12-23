@@ -21,6 +21,7 @@ define(function(require) {
     this.$leveltitle = $('.level-title')
     setInterval(_.bind(this.render, this), 500)
   }
+
   Editor.prototype = {
     render: function() {
       this.engine.render()
