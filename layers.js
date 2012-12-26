@@ -2,6 +2,7 @@ define(function(require) {
   var $ = require('jquery')
   var _ = require('underscore')
   var Eventable = require('eventable')
+  var EntityLayer = require('./entitylayer')
 
   var Layers = function(editor) {
     Eventable.call(this)

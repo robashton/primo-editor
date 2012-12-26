@@ -6,6 +6,7 @@ define(function(require) {
   var Palette = require('./palette')
   var Input = require('./input')
   var Level = require('../engine/level')
+  var Entities = require('./entities')
   
   var Editor = function(targetid) {
     Eventable.call(this)
@@ -15,6 +16,7 @@ define(function(require) {
     this.toolbar = new Toolbar(this)
     this.layers = new Layers(this)
     this.palette = new Palette(this)
+    this.entities = new Entities(this)
     this.input = new Input(targetid, this.engine.camera)
     this.toolbar.on('level-selected', _.bind(this.onLevelSelected, this))
     this.activeTool = null
@@ -45,6 +47,13 @@ define(function(require) {
     executeAction: function(action) {
       action.invoke()
       this.render()
+    },
+    addEntity: function(x, y, path, Type) {
+      this.engine.spawnEntity(Type, {
+        x: x,
+        y: y
+      })
+      this.level.addEntity(x,y,path,Type)
     },
     createLayer: function(name, tileset) {
       this.level.addLayer({
@@ -82,3 +91,4 @@ define(function(require) {
 
   var editor = new Editor('target')
 })
+
