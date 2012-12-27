@@ -2,7 +2,7 @@ define(function(require) {
   var $ = require('jquery')
     , _ = require('underscore')
     , Eventable = require('eventable')
-    , MemoryCanvas = require('./memorycanvas')
+    , MemoryCanvas = require('../engine/memorycanvas')
     , EntityPlaceTool = require('./entityplacetool')
 
   var Entities = function(editor) {
