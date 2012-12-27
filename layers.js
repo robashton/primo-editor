@@ -15,7 +15,8 @@ define(function(require) {
     this.level = null
     this.editor.on('level-changed', _.bind(this.onLevelChanged, this))
     this.$layerselection.on('click', '.layer', _.bind(this.onLayerSelected, this))
-    this.$layerselection.on('click', '[type=checkbox]', _.bind(this.onLayerChecked, this))
+    this.$layerselection.on('click', '[name=layervisible]', _.bind(this.onLayerChecked, this))
+    this.$layerselection.on('click', '[name=collision]', _.bind(this.onCollisionChanged, this))
     this.$addlayer.on('click', _.bind(this.onNewLayerClicked, this))
   }
 
@@ -46,6 +47,16 @@ define(function(require) {
           .append(
             $('<span/>')
             .text(layer.name())
+          )
+          .append(
+            $('<div/>').addClass('controls')
+            .append([
+              $('<label/>').attr('for', 'collision')
+                           .text('Collision'),
+
+              $('<input type="checkbox" name="collision"/>')
+                           .attr('checked', layer.iscollision() ? "checked" : false),
+            ])
           )
         )
     },
@@ -87,6 +98,14 @@ define(function(require) {
       this.$selectedlayer = $layer
       this.$selectedlayer.addClass('selected')
       this.raise('layer-selected', layerData)
+    },
+    onCollisionChanged: function(e) {
+      e.stopImmediatePropagation()
+      var $checkbox = $(e.target)
+        , $layer = $checkbox.parents('.layer')
+        , layer = $layer.data('layer')
+      
+      layer.iscollision(!!$checkbox.attr('checked'))
     },
     onLayerChecked: function(e) {
       e.stopImmediatePropagation()
