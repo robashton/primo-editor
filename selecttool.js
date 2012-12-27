@@ -25,7 +25,7 @@ define(function(require) {
       this.editor.input.off('dragend', this.onDragEnd)
     },
     onInputTap: function(ev) {
-      console.log(ev.screenx, ev.screeny)
+      console.log(this.editor.level.solidAt(ev.worldx, ev.worldy))
       var entity = this.editor.engine.entityAt(ev.worldx, ev.worldy)
       this.editor.selectEntity(entity)
     },
