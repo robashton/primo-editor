@@ -39,7 +39,7 @@ define(function(require) {
       if(entity)
         this.startMovingEntity(ev, entity)
       else
-        this.startMovingCamera(ev)
+        this.moveCamera(ev)
     },
     onDrag: function(ev) {
       if(this.movingEntity)  
@@ -52,22 +52,19 @@ define(function(require) {
     },
     moveEntity: function(ev) {
       this.movingEntity.configuration({
-        x: this.movingEntity.x + ev.distancex * 0.1,
-        y: this.movingEntity.y + ev.distancey * 0.1,
+        x: this.movingEntity.x + ev.distancex / this.camera.scalex(),
+        y: this.movingEntity.y + ev.distancey / this.camera.scaley(),
       })
       this.editor.render()
     },
     moveCamera: function(ev) {
-      this.camera.move(-ev.distancex * 0.1, -ev.distancey * 0.1)
+      this.camera.move(-ev.distancex / this.camera.scalex(),
+                       -ev.distancey / this.camera.scaley())
       this.editor.render()
     },
     startMovingEntity: function(ev, entity) {
       this.movingEntity = entity
       this.moveEntity(ev)
-    },
-    startMovingCamera: function(ev) {
-      this.camera.move(-ev.distancex * 0.1, -ev.distancey * 0.1)
-      this.editor.render()
     }
   }
   return SelectTool

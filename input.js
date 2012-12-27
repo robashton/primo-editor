@@ -13,6 +13,7 @@ define(function(require) {
     this.hammer.ondrag = _.bind(this.onDrag, this)
     this.hammer.ondragend = _.bind(this.onDragEnd, this)
     this.ev = {}
+    this.lastdistance = { x: 0, y: 0 }
   }
 
   Input.prototype = {
@@ -39,6 +40,8 @@ define(function(require) {
       this.ev.screeny = ev.position.y + this.element.offsetTop
       this.ev.distancex = ev.distanceX 
       this.ev.distancey = ev.distanceY
+      this.lastdistance.x = ev.distanceX
+      this.lastdistance.y = ev.distanceY
       this.raise('dragstart', this.ev)
     },
     onDrag: function(ev) {
@@ -49,8 +52,10 @@ define(function(require) {
       )
       this.ev.screenx = ev.position.x + this.element.offsetLeft
       this.ev.screeny = ev.position.y + this.element.offsetTop
-      this.ev.distancex = ev.distanceX
-      this.ev.distancey = ev.distanceY
+      this.ev.distancex = ev.distanceX - this.lastdistance.x 
+      this.ev.distancey = ev.distanceY - this.lastdistance.y
+      this.lastdistance.x = ev.distanceX
+      this.lastdistance.y = ev.distanceY
       this.raise('drag', this.ev)
     },
     onDragEnd: function(ev) {
