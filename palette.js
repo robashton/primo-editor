@@ -8,7 +8,7 @@ define(function(require) {
     this.editor = editor
     this.editor.layers.on('layer-selected', _.bind(this.onLayerSelected, this))
     this.$selection = $('#palette-selection')
-    this.$selection.on('click div', _.bind(this.onItemSelected, this))
+    this.$selection.on('click', 'div', _.bind(this.onItemSelected, this))
   }
 
   Palette.prototype = {
