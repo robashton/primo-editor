@@ -48,12 +48,39 @@ define(function(require) {
       action.invoke()
       this.render()
     },
+    createEntityData: function(x, y, path, Type) {
+      var type = this.registerEntityType(path, Type)
+      var entityData =  {
+        type: type,
+        data: {
+          x: x,
+          y: y
+        }
+      }
+      this.level.rawdata.entities.push(entityData)
+      return entityData
+    },
+    registerEntityType: function(path, Type) {
+      var lastSlash = path.lastIndexOf('/')
+      var type = path.substr(lastSlash+1, path.length - (lastSlash+1))
+      this.level.entityTypes[type] = Type
+      this.level.rawdata.entityTypes[type] = path
+      return type
+    },
     addEntity: function(x, y, path, Type) {
-      this.engine.spawnEntity(Type, {
+      var rawdata = this.createEntityData(x,y,path,Type)
+      var entity = this.engine.spawnEntity(Type, {
         x: x,
         y: y
       })
-      this.level.addEntity(x,y,path,Type)
+      entity.configuration = function(data) {
+        if(data)
+          rawdata.data = data
+        if(data.x) entity.x = data.x
+        if(data.y) entity.y = data.y
+        return rawdata.data
+      }
+      return entity
     },
     createLayer: function(name, tileset) {
       this.level.addLayer({

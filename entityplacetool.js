@@ -4,6 +4,7 @@ define(function(require) {
     this.path = path
     this.Type = Type
     this.editor = null
+    this.trackedEntity = null
     this.onInputTap = _.bind(this.onInputTap, this)
     this.onDragStart = _.bind(this.onDragStart, this)
     this.onDrag = _.bind(this.onDrag, this)
@@ -26,12 +27,14 @@ define(function(require) {
       this.editor.addEntity(ev.worldx, ev.worldy, this.path, this.Type)
     },
     onDragStart: function(ev) {
-      // Start showing an entity
-      
+      this.trackedEntity = this.editor.addEntity(ev.worldx, ev.worldy, this.path, this.Type)
     },
     onDrag: function(ev) {
-      // Drop entity where we ended
-
+      this.trackedEntity.configuration({
+        x: ev.worldx,
+        y: ev.worldy
+      })
+      this.editor.render()
     }
   }
   return EntityPlaceTool
