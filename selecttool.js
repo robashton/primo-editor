@@ -22,7 +22,8 @@ define(function(require) {
       this.editor.input.off('drag', this.onDrag)
     },
     onInputTap: function(ev) {
-      // TODO: Select
+      var entity = this.editor.engine.entityAt(ev.worldx, ev.worldy)
+      this.editor.selectEntity(entity)
     },
     onDragStart: function(ev) {
       this.camera.move(-ev.distancex, -ev.distancey)

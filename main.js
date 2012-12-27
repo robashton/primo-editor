@@ -7,16 +7,19 @@ define(function(require) {
   var Input = require('./input')
   var Level = require('../engine/level')
   var Entities = require('./entities')
+  var CurrentSelection = require('./currentselection')
   
   var Editor = function(targetid) {
     Eventable.call(this)
     this.targetid = targetid
     this.level = null
+    this.selectedEntity = null
     this.engine = new Runner(targetid)
     this.toolbar = new Toolbar(this)
     this.layers = new Layers(this)
     this.palette = new Palette(this)
     this.entities = new Entities(this)
+    this.selection = new CurrentSelection(this)
     this.input = new Input(targetid, this.engine.camera)
     this.toolbar.on('level-selected', _.bind(this.onLevelSelected, this))
     this.activeTool = null
@@ -27,6 +30,11 @@ define(function(require) {
   Editor.prototype = {
     render: function() {
       this.engine.render()
+      this.raise('rendered')
+    },
+    selectEntity: function(entity) {
+      this.selectedEntity = entity
+      this.raise('entity-selection-changed', entity)
     },
     onLevelSelected: function(path) {
       this.level = new Level(path)
