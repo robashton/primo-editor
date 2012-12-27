@@ -29,6 +29,7 @@ define(function(require) {
         self.addLayerUi(layer)
       })
       this.level.on('layer-added', _.bind(this.onLayerAdded, this))
+      this.selectLayerFromUi(this.$layerselection.find('li').eq(0))
     },
     onLayerAdded: function(layer) {
       this.addLayerUi(layer)
@@ -77,6 +78,9 @@ define(function(require) {
     },
     onLayerSelected: function(e) {
       var $layer = $(e.target)
+      this.selectLayerFromUi($layer)
+    },
+    selectLayerFromUi: function($layer) {
       var layerData = $layer.data('layer')
       this.$layerselection.find('li').removeClass('selected')
       this.selectedlayer = layerData
