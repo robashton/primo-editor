@@ -21,30 +21,36 @@ define(function(require) {
     },
     onTap: function(ev) {
       this.camera.screenToWorld(
-        ev.position[0].x - this.element.offsetLeft,
-        ev.position[0].y - this.element.offsetTop,
+        ev.position[0].x,
+        ev.position[0].y,
         this.ev
       )
+      this.ev.screenx = ev.position[0].x
+      this.ev.screeny = ev.position[0].y
       this.raise('tap', this.ev)
     },
     onDragStart: function(ev) {
       this.camera.screenToWorld(
-        ev.position.x,
-        ev.position.y,
+        ev.position.x + this.element.offsetLeft,
+        ev.position.y + this.element.offsetTop,
         this.ev
       )
-      this.ev.distancex = ev.distanceX * 0.1
-      this.ev.distancey = ev.distanceY * 0.1
+      this.ev.screenx = ev.position.x + this.element.offsetLeft
+      this.ev.screeny = ev.position.y + this.element.offsetTop
+      this.ev.distancex = ev.distanceX 
+      this.ev.distancey = ev.distanceY
       this.raise('dragstart', this.ev)
     },
     onDrag: function(ev) {
       this.camera.screenToWorld(
-        ev.position.x,
-        ev.position.y,
+        ev.position.x + this.element.offsetLeft,
+        ev.position.y + this.element.offsetTop,
         this.ev
       )
-      this.ev.distancex = ev.distanceX * 0.1
-      this.ev.distancey = ev.distanceY * 0.1
+      this.ev.screenx = ev.position.x + this.element.offsetLeft
+      this.ev.screeny = ev.position.y + this.element.offsetTop
+      this.ev.distancex = ev.distanceX
+      this.ev.distancey = ev.distanceY
       this.raise('drag', this.ev)
     },
     onDragEnd: function(ev) {

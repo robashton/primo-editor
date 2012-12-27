@@ -41,7 +41,7 @@ define(function(require) {
       this.level.on('loaded', this.onLevelLoaded, this)
     },
     onLevelLoaded: function() {
-      this.engine.setLevel(this.level)
+      this.engine.setLevel(this)
       this.$leveltitle.text(this.level.path)
       this.raise('level-changed', this.level)
     },
@@ -55,6 +55,22 @@ define(function(require) {
     executeAction: function(action) {
       action.invoke()
       this.render()
+    },
+    /*
+     * Yes, this is a leaky bit of cover up around 'level'
+     * I'll sleep on it
+     */
+    loadIntoGame: function(game) {
+      game.reset()
+      for(var i = 0; i < this.level.rawdata.entities.length; i++) {
+        var config = this.level.rawdata.entities[i]
+        var type = this.level.entityTypes[config.type]
+        var entity = game.spawnEntity(type, config.data)
+        this.hookEntity(entity, config)
+      }
+    },
+    forEachLayer: function(cb) {
+      this.level.forEachLayer(cb)
     },
     createEntityData: function(x, y, path, Type) {
       var type = this.registerEntityType(path, Type)
@@ -75,19 +91,22 @@ define(function(require) {
       this.level.rawdata.entityTypes[type] = path
       return type
     },
+    hookEntity: function(entity, config) {
+      entity.configuration = function(data) {
+        if(data)
+          config.data = data
+        if(data.x) entity.x = data.x
+        if(data.y) entity.y = data.y
+        return config.data
+      }
+    },
     addEntity: function(x, y, path, Type) {
       var rawdata = this.createEntityData(x,y,path,Type)
       var entity = this.engine.spawnEntity(Type, {
         x: x,
         y: y
       })
-      entity.configuration = function(data) {
-        if(data)
-          rawdata.data = data
-        if(data.x) entity.x = data.x
-        if(data.y) entity.y = data.y
-        return rawdata.data
-      }
+      this.hookEntity(entity, rawdata)
       return entity
     },
     createLayer: function(name, tileset) {
@@ -107,6 +126,8 @@ define(function(require) {
       }
       return data
     },
+    /* * * * * * * * * * *  * */
+
     getTileAt: function(layer, x, y) {
       return this.levelEditor.getTileAt(layer, x, y)
     },

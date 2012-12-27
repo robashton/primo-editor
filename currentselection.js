@@ -6,8 +6,10 @@ define(function(require) {
     this.$selection = $('#selection-indicator')
     this.$selection.css({
         "position": "absolute",
-        "border": "1px solid #0F0"
+        "border": "1px solid #0F0",
+        "pointer-events": "none"
     })
+
     this.engine = this.editor.engine
   }
   CurrentSelection.prototype = {
@@ -28,6 +30,7 @@ define(function(require) {
           "height": (bottomright.screeny - topleft.screeny) + "px",
           "width": (bottomright.screenx - topleft.screenx )+ "px"
         })
+
         this.$selection.show()
       }
       else {
