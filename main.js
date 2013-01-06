@@ -37,7 +37,7 @@ define(function(require) {
       this.raise('entity-selection-changed', entity)
     },
     onLevelSelected: function(path) {
-      this.level = new Level(path)
+      this.level = new Level(this.engine, path)
       this.level.on('loaded', this.onLevelLoaded, this)
     },
     onLevelLoaded: function() {
