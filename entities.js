@@ -29,7 +29,7 @@ define(function(require) {
       })
     },
     onEntityReceived: function(path, EntityType) {
-      var blah = new EntityType('editor', {x: 0, y: 0})
+      var blah = new EntityType('editor', {x: 0, y: 0}, this.editor.engine)
       this.canvas.setup(blah.width, blah.height)
       blah.render(this.canvas.context)
       var imageData = this.canvas.getImage()
