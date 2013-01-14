@@ -1,0 +1,83 @@
+body {
+  background-color: #EEE;
+}
+
+canvas {
+  border: 1px solid #FFF;
+  background-color: #000;
+}
+
+.tools {
+
+}
+
+.layer {
+  cursor: pointer;
+  background-color: #FFF;
+}
+
+.layer:hover {
+  background-color: #FF0;
+}
+
+.layer.selected {
+  background-color: #FF0;
+}
+
+.layer > .controls { 
+  display: none;
+}
+
+.layer.selected > .controls { 
+  display: block;
+  height: 30px;
+}
+
+.layer.selected > .controls > * {
+  float: left;
+}
+
+#palette-selection {
+ -webkit-transform-origin: 0 0;
+ -webkit-transform: scale(2.0, 2.0);
+ position: relative;
+ top: 10px;
+ width: 100px;
+ height: 100px;
+}
+
+#palette-selection > div {
+  float: left;
+  margin-top: 5px;
+  margin-left: 5px;
+  cursor: pointer;
+  border: 2px solid transparent;
+}
+
+#palette {
+  height: 120px;
+  overflow: hidden;
+}
+
+#palette-selection > div:hover {
+  border: 2px solid #FF0;
+}
+
+#palette-selection > div.selected {
+  border: 2px solid #FF0;
+}
+
+#entity-selection > img {
+  float: left;
+  margin-top: 5px;
+  margin-left: 5px;
+  cursor: pointer;
+  border: 2px solid transparent;
+}
+
+#entity-selection > img:hover {
+  border: 2px solid #FF0;
+}
+#entity-selection > img.selected {
+  border: 2px solid #FF0;
+}
