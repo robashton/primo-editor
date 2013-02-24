@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/editor.css">
+  </head>
+  <body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="brand" href="#">Engine Editor</a>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Level<span class="caret"></span></a>
+                <ul class="dropdown-menu" id="list-of-levels">
+                  <li><a href="#" id="btn-create-level">New level</a></li>
+                  <li><a href="#" id="btn-save-level">Save</a></li>
+                  <li class="divider"></li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container-fluid" style="margin-top: 50px">
+      <div class="row-fluid">
+        <div class="span2 tools">
+          <div id="layers">
+            <h4>Layers <a href="#" id="btn-add-layer">(add)</a></h4>
+            <ul id="layer-selection"></ul>
+          </div>
+          <div id="palette">
+            <h4>Palette</h4>
+            <div id="palette-selection"></div>
+          </div>
+          <div id="entities">
+            <h4>Entities</h4>
+            <div id="entity-selection">
+
+            </div>
+          </div>
+        </div>
+        <div class="span7">
+          <h5 class="level-title">No level loaded</h5>
+          <canvas id="target" width="800" height="600"></canvas>
+          <div id="selection-indicator"></div>
+        </div>
+      </div>
+    </div>
+    <div class="modal hide fade" id="new-level-dialog">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3>New level</h3>
+        </div>
+      <div class="modal-body">
+        <form>
+          <label for="name">Name</label><input type="text" name="name">
+          <label for="width">Width</label><input type="text" name="width" value="30">
+          <label for="width">Height</label><input type="text" name="height" value="30">
+          <label for="tilesize">Tilesize</label><input type="text" name="tilesize" value="32">
+        </form>
+        </div>
+        <div class="modal-footer">
+        <a href="#" data-dismiss="modal" class="btn">Close</a>
+        <a href="#" class="btn btn-primary save">Create</a>
+      </div>
+    </div>
+    <div class="modal hide fade" id="new-layer-dialog">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3>New layer</h3>
+        </div>
+      <div class="modal-body">
+        <form>
+          <label for="name">Name</label><input type="text" name="name">
+          <label for="tileset">Tileset</label>
+          <select name="tileset">
+            <option value="blah">blah</option>
+          </select>
+        </form>
+        </div>
+        <div class="modal-footer">
+        <a href="#" data-dismiss="modal" class="btn">Close</a>
+        <a href="#" class="btn btn-primary save">Create</a>
+      </div>
+    </div>
+    <script type="text/javascript" src="/main-built.js"></script>
+  </body>
+</html>

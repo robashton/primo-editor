@@ -1,16 +1,18 @@
-var http = require('http');
-var send = require('send');
-var url = require('url');
-var path = require('path')
-var fs = require('fs')
-var app = require('express')()
-var _ = require('underscore')
+var http = require('http')
+  , send = require('send')
+  , url = require('url')
+  , path = require('path')
+  , fs = require('fs')
+  , app = require('express')()
+  , _ = require('underscore')
+  , argv = require('optimist').argv
+  , dir = argv.dir
 
 var server = http.createServer(app).listen(8080)
 app.use(require('express').bodyParser())
 
 app.put('/game/levels/:file', function(req, res) {
-   fs.writeFile('site/game/levels/' + req.params.file, JSON.stringify(req.body), 'utf8', function(err) {
+   fs.writeFile(dir + '/levels/' + req.params.file, JSON.stringify(req.body), 'utf8', function(err) {
      if(err) {
        res.statusCode = 500
        res.end('' + err)
@@ -21,7 +23,7 @@ app.put('/game/levels/:file', function(req, res) {
 })
 
 app.get('/levels', function(req, res) {
-  fs.readdir('site/game/levels', function(err, files) {
+  fs.readdir(dir + '/levels', function(err, files) {
     var levels = _(files).map(function(file) {
         return { name: file, link: '../game/levels/' + file }
     })
@@ -30,7 +32,7 @@ app.get('/levels', function(req, res) {
 })
 
 app.get('/tilesets', function(req, res) {
-  fs.readdir('site/game/tilesets', function(err, files) {
+  fs.readdir('site/tilesets', function(err, files) {
     var tilesets = _(files).map(function(file) {
         return { name: file, link: '../game/tilesets/' + file }
     })
@@ -39,7 +41,7 @@ app.get('/tilesets', function(req, res) {
 })
 
 app.get('/entities', function(req, res) {
-  fs.readdir('site/game/entities', function(err, files) {
+  fs.readdir('site/entities', function(err, files) {
     var levels = _(files).map(function(file) {
         return { name: file, link: '../game/entities/' + file.split('.')[0] }
     })
