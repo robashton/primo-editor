@@ -1,5 +1,6 @@
 var Eventable = require('primo-events')
-var Runner = require('primo')
+var Primo = require('primo')
+var _ = require('underscore')
 
 var Toolbar = require('./toolbar')
 var Layers = require('./layers')
@@ -16,7 +17,7 @@ var Editor = function(targetid) {
   this.targetid = targetid
   this.level = null
   this.selectedEntity = null
-  this.engine = new Runner(targetid)
+  this.engine = Primo.Create(targetid)
   this.toolbar = new Toolbar(this)
   this.layers = new Layers(this)
   this.palette = new Palette(this)

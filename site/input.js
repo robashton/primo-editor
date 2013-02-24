@@ -1,7 +1,4 @@
 var Eventable = require('primo-events')
-
-// TODO: Probably not an NPM module yet
-var Hammer = {} //= require('hammer')
 var _ = require('underscore')
 
 var Input = function(elementid, camera) {

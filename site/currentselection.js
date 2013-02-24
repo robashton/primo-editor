@@ -1,3 +1,5 @@
+var _ = require('underscore')
+
 var CurrentSelection = function(editor) {
   this.editor = editor
   this.editor.on('entity-selection-changed', _.bind(this.onEntitySelectionChanged,this))
