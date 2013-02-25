@@ -11,7 +11,7 @@ var http = require('http')
 var server = http.createServer(app).listen(8080)
 app.use(require('express').bodyParser())
 
-app.put('/game/levels/:file', function(req, res) {
+app.put('/levels/:file', function(req, res) {
    fs.writeFile(dir + '/levels/' + req.params.file, JSON.stringify(req.body), 'utf8', function(err) {
      if(err) {
        res.statusCode = 500
@@ -20,6 +20,12 @@ app.put('/game/levels/:file', function(req, res) {
        res.end('success')
      }
    })
+})
+
+app.get('/levels/:file', function(req, res) {
+  fs.readFile(dir + '/levels/' + req.params.file, 'utf8', function(err, file) {
+    res.end(file);
+  })
 })
 
 app.get('/levels', function(req, res) {

@@ -29,6 +29,7 @@
     "underscore": "~1.4.4",
     "primo-events": "~1.0.2",
     "primo": "~0.4.1",
-    "primo-canvas": "0.0.1"
+    "primo-canvas": "0.0.1",
+    "primo-level": ""
   }
 }

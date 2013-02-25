@@ -1,16 +1,13 @@
 var Eventable = require('primo-events')
-var Primo = require('primo')
-var _ = require('underscore')
-
-var Toolbar = require('./toolbar')
-var Layers = require('./layers')
-var Palette = require('./palette')
-var Input = require('./input')
-var Entities = require('./entities')
-var CurrentSelection = require('./currentselection')
-
-// TODO Needs to be its own module
-var Level = {} // require('../engine/level')
+  , Level = require('primo-level')
+  , Primo = require('primo')
+  , _ = require('underscore')
+  , Toolbar = require('./toolbar')
+  , Layers = require('./layers')
+  , Palette = require('./palette')
+  , Input = require('./input')
+  , Entities = require('./entities')
+  , CurrentSelection = require('./currentselection')
 
 var Editor = function(targetid) {
   Eventable.call(this)

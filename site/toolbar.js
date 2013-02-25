@@ -64,7 +64,7 @@ Toolbar.prototype = {
       name: this.$newleveldialog.find("[name=name]").val(),
       tilesize: this.$newleveldialog.find("[name=tilesize]").val(),
     }
-    var url = "/game/levels/" + data.name + '.json'
+    var url = "/levels/" + data.name + '.json'
 
     $.ajax({
         url: url,
