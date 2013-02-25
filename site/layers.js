@@ -90,6 +90,7 @@ Layers.prototype = {
     this.selectLayerFromUi($layer)
   },
   selectLayerFromUi: function($layer) {
+    if($layer.length === 0) return
     var layerData = $layer.data('layer')
     this.$layerselection.find('li').removeClass('selected')
     this.selectedlayer = layerData

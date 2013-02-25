@@ -41,7 +41,7 @@ Editor.prototype = {
     this.level.on('loaded', this.onLevelLoaded, this)
   },
   onLevelLoaded: function() {
-    this.engine.setLevel(this)
+    this.level.loadInto(this.engine.scene);
     this.$leveltitle.text(this.level.path)
     this.raise('level-changed', this.level)
   },

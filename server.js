@@ -31,7 +31,7 @@ app.get('/levels/:file', function(req, res) {
 app.get('/levels', function(req, res) {
   fs.readdir(dir + '/levels', function(err, files) {
     var levels = _(files).map(function(file) {
-        return { name: file, link: '../game/levels/' + file }
+        return { name: file, link: '../levels/' + file }
     })
     res.send(levels)
   })
@@ -40,7 +40,7 @@ app.get('/levels', function(req, res) {
 app.get('/tilesets', function(req, res) {
   fs.readdir('site/tilesets', function(err, files) {
     var tilesets = _(files).map(function(file) {
-        return { name: file, link: '../game/tilesets/' + file }
+        return { name: file, link: '../tilesets/' + file }
     })
     res.send(tilesets)
   })
@@ -49,7 +49,7 @@ app.get('/tilesets', function(req, res) {
 app.get('/entities', function(req, res) {
   fs.readdir('site/entities', function(err, files) {
     var levels = _(files).map(function(file) {
-        return { name: file, link: '../game/entities/' + file.split('.')[0] }
+        return { name: file, link: '../entities/' + file.split('.')[0] }
     })
     res.send(levels)
   })
