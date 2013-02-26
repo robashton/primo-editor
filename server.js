@@ -28,6 +28,12 @@ app.get('/levels/:file', function(req, res) {
   })
 })
 
+app.get('/tilesets/:file', function(req, res) {
+  fs.readFile(dir + '/tilesets/' + req.params.file, 'utf8', function(err, file) {
+    res.end(file);
+  })
+})
+
 app.get('/levels', function(req, res) {
   fs.readdir(dir + '/levels', function(err, files) {
     var levels = _(files).map(function(file) {
@@ -38,7 +44,7 @@ app.get('/levels', function(req, res) {
 })
 
 app.get('/tilesets', function(req, res) {
-  fs.readdir('site/tilesets', function(err, files) {
+  fs.readdir(dir + '/tilesets', function(err, files) {
     var tilesets = _(files).map(function(file) {
         return { name: file, link: '../tilesets/' + file }
     })

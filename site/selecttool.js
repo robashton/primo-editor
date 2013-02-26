@@ -1,3 +1,5 @@
+var _ = require('underscore')
+
 var SelectTool = function() {
   this.onInputTap = _.bind(this.onInputTap, this)
   this.onDragStart = _.bind(this.onDragStart, this)

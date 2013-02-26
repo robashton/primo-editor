@@ -22,9 +22,13 @@ Palette.prototype = {
     image.onload = _.bind(function() {
       for(var i in tileset.tiles) {
         var tileOffset = tileset.tiles[i]
-        var delta = tileset.tilesize * tileOffset  
-        var sx = delta % image.width
-        var sy = parseInt(delta / image.width, 10) * tileset.tilesize
+          , tilex = tileOffset % tileset.countwidth
+          , tiley = Math.floor(tileOffset / tileset.countheight)
+          , tilewidth = (image.width * tileset.countwidth)
+          , tileheight = tilewidth
+
+        var sx = tilex * tilewidth
+        var sy = tiley * tileheight
 
         var tool = new TileTool(layer, tileOffset)
         var $item = this.createItem(tool, layer.tileset().path)
