@@ -1,3 +1,4 @@
+var _ = require('underscore')
 
 var TileTool = function(layer, tile) {
   this.layer = layer

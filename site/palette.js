@@ -15,7 +15,7 @@ Palette.prototype = {
     var tileset = layer.tileset()
     var image = new Image()
 
-    var $selectTool = this.createItem(new SelectTool(), '/media/selecttool.png')
+    var $selectTool = this.createItem(new SelectTool(), 'media/selecttool.png')
     items.push($selectTool)
 
     image.src = tileset.path
@@ -24,17 +24,24 @@ Palette.prototype = {
         var tileOffset = tileset.tiles[i]
           , tilex = tileOffset % tileset.countwidth
           , tiley = Math.floor(tileOffset / tileset.countheight)
-          , tilewidth = (image.width * tileset.countwidth)
+          , tilewidth = (image.width / tileset.countwidth)
           , tileheight = tilewidth
 
-        var sx = tilex * tilewidth
-        var sy = tiley * tileheight
+        var sx = tilex * 16
+        var sy = tiley * 16
+        var w = 16 * tileset.countwidth
+        var h = 16 * tileset.countheight
 
         var tool = new TileTool(layer, tileOffset)
         var $item = this.createItem(tool, layer.tileset().path)
-                        .css({ 'background-position': [
-                           -sx, 'px ', -sy, 'px'
-                     ].join('')})
+                        .css(
+                          { 'background-position': [
+                             -sx, 'px ', -sy, 'px'
+                           ].join(''),
+                            'background-size': [
+                              w, 'px ', h, 'px'
+                            ].join('')
+                         })
 
         items.push($item)
       }
@@ -42,10 +49,11 @@ Palette.prototype = {
     }, this)
     this.select($selectTool)
   },
-  createItem: function(tool, image) {
+  createItem: function(tool, image, dimensions) {
    return $('<div/>')
         .css({
           'background-image': ['url(', image, ')'].join(''),
+          'background-size': '16px 16px',
           width: '16px',
           height: '16px'
         })
