@@ -22,18 +22,6 @@ app.put('/levels/:file', function(req, res) {
    })
 })
 
-app.get('/levels/:file', function(req, res) {
-  fs.readFile(dir + '/levels/' + req.params.file, 'utf8', function(err, file) {
-    res.end(file);
-  })
-})
-
-app.get('/tilesets/:file', function(req, res) {
-  fs.readFile(dir + '/tilesets/' + req.params.file, 'utf8', function(err, file) {
-    res.end(file);
-  })
-})
-
 app.get('/levels', function(req, res) {
   fs.readdir(dir + '/levels', function(err, files) {
     var levels = _(files).map(function(file) {
@@ -71,8 +59,18 @@ app.use(function(req, res) {
     res.setHeader('Location', req.url + '/');
     res.end('Redirecting to ' + req.url + '/');
   }
+
+  var filepath = ''
+  if(req.url.indexOf('/editor') === 0) {
+    req.url = req.url.substr(8)
+    filepath = path.join(__dirname, 'site')
+  }
+  else {
+    filepath = dir
+  }
+
   send(req, url.parse(req.url).pathname)
-    .root(path.join(__dirname, 'site'))
+    .root(filepath)
     .on('error', error)
     .on('directory', redirect)
     .pipe(res);
