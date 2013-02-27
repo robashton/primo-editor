@@ -20,7 +20,7 @@ var Editor = function(targetid) {
   this.palette = new Palette(this)
   this.entities = new Entities(this)
   this.selection = new CurrentSelection(this)
-  this.input = new Input(targetid, this.engine.camera)
+  this.input = new Input(targetid, this.engine.scene.camera)
   this.toolbar.on('level-selected', _.bind(this.onLevelSelected, this))
   this.activeTool = null
   this.$leveltitle = $('.level-title')

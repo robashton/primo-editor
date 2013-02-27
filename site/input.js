@@ -19,7 +19,7 @@ Input.prototype = {
     this.element.style.cursor = cursor
   },
   onTap: function(ev) {
-    this.camera.screenToWorld(
+    this.camera.canvasToWorld(
       ev.position[0].x,
       ev.position[0].y,
       this.ev
@@ -29,7 +29,7 @@ Input.prototype = {
     this.raise('tap', this.ev)
   },
   onDragStart: function(ev) {
-    this.camera.screenToWorld(
+    this.camera.canvasToWorld(
       ev.position.x + this.element.offsetLeft,
       ev.position.y + this.element.offsetTop,
       this.ev
@@ -43,7 +43,7 @@ Input.prototype = {
     this.raise('dragstart', this.ev)
   },
   onDrag: function(ev) {
-    this.camera.screenToWorld(
+    this.camera.canvasToWorld(
       ev.position.x + this.element.offsetLeft,
       ev.position.y + this.element.offsetTop,
       this.ev

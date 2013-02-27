@@ -2,6 +2,8 @@ var _ = require('underscore')
 var TileTool = require('./tiletool')
 var SelectTool = require('./selecttool')
 
+var palettesize = 16
+
 var Palette = function(editor) {
   this.editor = editor
   this.editor.layers.on('layer-selected', _.bind(this.onLayerSelected, this))
@@ -27,15 +29,14 @@ Palette.prototype = {
           , tilewidth = (image.width / tileset.countwidth)
           , tileheight = tilewidth
 
-        var sx = tilex * 16
-        var sy = tiley * 16
-        var w = 16 * tileset.countwidth
-        var h = 16 * tileset.countheight
+        var sx = tilex * palettesize
+        var sy = tiley * palettesize
+        var w = palettesize * tileset.countwidth
+        var h = palettesize * tileset.countheight
 
         var tool = new TileTool(layer, tileOffset)
         var $item = this.createItem(tool, layer.tileset().path)
-                        .css(
-                          { 'background-position': [
+                        .css({ 'background-position': [
                              -sx, 'px ', -sy, 'px'
                            ].join(''),
                             'background-size': [
